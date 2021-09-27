@@ -5,8 +5,8 @@ pipeline {
 	}
 
 	options {
-		disableConcurrentBuild()
-		timeout(time: 30, unit: MINUTES)
+		disableConcurrentBuilds()
+		timeout(time: 30, unit: 'MINUTES')
 
 	}
 
@@ -14,7 +14,7 @@ pipeline {
 
 		HOME = '.'
 		POM_VERSION = readMavenPom().getVersion()
-		POM_ARTIFACT = readMavenPam().getArtifactId()
+		POM_ARTIFACT = readMavenPom().getArtifactId()
 		git_hash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
 	}
