@@ -5,11 +5,17 @@ pipeline {
 	}
 
 	options {
+		disableConcurrentBuild()
+		timeout(time: 30, unit: MINUTES)
 
 	}
 
 	environment {
 
+		HOME = '.'
+		POM_VERSION = readMavenPom().getVersion()
+		POM_ARTIFACT = readMavenPam().getArtifactId()
+		git_hash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
 	}
 	stages {
