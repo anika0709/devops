@@ -1,0 +1,25 @@
+pipeline {
+	
+	agent {
+		label 'docker'
+	}
+
+	options {
+
+	}
+
+	environment {
+
+
+	}
+	stages {
+		stage("Build") {
+			steps {
+				script {
+					mvn clean install
+
+				}
+			}
+		}
+	}
+}
