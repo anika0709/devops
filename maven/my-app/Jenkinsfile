@@ -12,9 +12,9 @@ pipeline {
 
 	environment {
 
-		HOME = '.'
-		POM_VERSION = readMavenPom().getVersion()
-		POM_ARTIFACT = readMavenPom().getArtifactId()
+		HOME = 'workspace/maven-pipeline/maven/my-app'
+		//POM_VERSION = readMavenPom().getVersion()
+		//POM_ARTIFACT = readMavenPom().getArtifactId()
 		git_hash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
 	}
@@ -22,10 +22,27 @@ pipeline {
 		stage("Build") {
 			steps {
 				script {
-					mvn clean install
+				    ws(HOME){
+				    POM_VERSION = readMavenPom().getVersion()
+		            POM_ARTIFACT = readMavenPom().getArtifactId()
+				    }
+				    sh '''cd maven/my-app && pwd
+					/usr/local/bin/mvn clean install
+					'''
 
 				}
 			}
 		}
+	}
+	post {
+	    always{
+	        echo "Completed"
+	        
+	    }
+	    cleanup {
+	        cleanWs(
+	            deleteDirs: true
+	            )
+	    }
 	}
 }
